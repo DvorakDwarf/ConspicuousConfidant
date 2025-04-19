@@ -56,8 +56,8 @@ function App() {
   return (
     <div className="flex flex-col justify-center w-[400px] h-[600px] p-4">
       <div className="flex flex-col items-center space-y-4 w-full">   
-       <div className="space-w-4 flex-row"> 
-          <div className="font-extrabold text-xl top-0">
+       <div className="space-w-4 flex-row justify-between bg-gray-800 text-white top-0"> 
+          <div className="flex space-y-4">
             ConspicousConfidant
            </div>
               {/* <div> 
