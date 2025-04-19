@@ -8,15 +8,12 @@ function App() {
   // const [isRunning, setIsRunning] = useState<boolean>(false);
   // const [repeats, setRepeats] = useState<number>(0);
 
-<<<<<<< HEAD
   // URL input states
   const [allowedURLS, setAllowedURLS] = useState<string[]>([
     "https://stackoverflow.com/questions/*",
     "https://www.youtube.com/",
   ]);
   const [url, setUrl] = useState("");
-  const [isUrlValid, setIsUrlValid] = useState(false);
-  const [isUrlLoading, setIsUrlLoading] = useState(false);
 
   useEffect(() => {
     console.log(allowedURLS);
@@ -57,19 +54,6 @@ function App() {
       </div>
     </div>
   );
-=======
-  // // URL input states
-  // const [allowedURLS, setAllowedURLS] = useState<string[]>([
-  //   "https://stackoverflow.com/questions/*",
-  //   "https://www.youtube.com/",
-  // ]);
-  // const [url, setUrl] = useState("");
-  // const [isUrlValid, setIsUrlValid] = useState(false);
-  // const [isUrlLoading, setIsUrlLoading] = useState(false);
-  // return <></>;
-
-  
->>>>>>> 457a101 (Struggling with loading)
 }
 
 export default App;
