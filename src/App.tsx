@@ -8,7 +8,6 @@ function App() {
   // const [isRunning, setIsRunning] = useState<boolean>(false);
   // const [repeats, setRepeats] = useState<number>(0);
 
-<<<<<<< HEAD
   // URL input states
   const [allowedURLS, setAllowedURLS] = useState<string[]>([
     "https://stackoverflow.com/questions/*",
@@ -42,7 +41,12 @@ function App() {
   return (
     <div className="flex flex-col justify-center">
       <div className="flex flex-col items-center">
+      <div className="font-extrabold"> 
+          ConspicousConfidant
+        </div>
+
         <h1>Timer</h1>
+        
         <input
           className="border w-[20vw]"
           name="item"
@@ -57,7 +61,6 @@ function App() {
       </div>
     </div>
   );
-=======
   // // URL input states
   // const [allowedURLS, setAllowedURLS] = useState<string[]>([
   //   "https://stackoverflow.com/questions/*",
@@ -69,7 +72,6 @@ function App() {
   // return <></>;
 
   
->>>>>>> 457a101 (Struggling with loading)
 }
 
 export default App;
