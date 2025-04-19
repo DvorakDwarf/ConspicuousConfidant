@@ -1,10 +1,27 @@
 {
-  "manifest_version": 3,
-  "name": "React Chrome Extension",
+  "manifest_version": 2,
+  "name": "Conspicous Confidant",
   "version": "1.0.0",
-  "description": "A simple React app as a Chrome extension",
-  "action": {
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "description": "Stops you from procratistination by messing with you",
+
+  "homepage_url": "https://github.com/DvorakDwarf/ConspicuousConfidant",
+
+  "browser_action": {
+    "default_icon": "icons/border-48.png",
+    "default_title": "Settings",
     "default_popup": "index.html"
   },
-  "permissions": []
+  "permissions": ["activeTab", "tabs"],
+
+  "content_scripts": [
+    {
+      "matches": ["*"],
+      "js": ["confidant.js"]
+    }
+  ]
 }
