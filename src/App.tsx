@@ -55,8 +55,16 @@ function App() {
 
   return (
     <div className="flex flex-col justify-center w-[400px] h-[600px] p-4">
-      <div className="flex flex-col items-center space-y-4 w-full">
-        <div className="font-extrabold text-xl">ConspicousConfidant</div>
+      <div className="flex flex-col items-center space-y-4 w-full">   
+       <div className="space-w-4 flex-row"> 
+          <div className="font-extrabold text-xl top-0">
+            ConspicousConfidant
+           </div>
+              {/* <div> 
+                <img src={Menu} alt="Dropdown Menu" />
+             </div> */}
+        </div>
+
         <h1 className="text-lg">Timer</h1>
 
         <div className="flex w-full gap-2">
