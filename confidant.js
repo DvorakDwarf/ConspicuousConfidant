@@ -21,9 +21,13 @@ function troll() {
     
 // }
 
-browser.storage.local.get("whitelist").then((item) => {
-    console.log(item);
-});
+export function getWhitelist(){
+    browser.storage.local.get("whitelist").then((item) => {
+        console.log(item);
+    });
+}
+
+
 
 setTimeout(backToProductivity, 1000 * 1);
 

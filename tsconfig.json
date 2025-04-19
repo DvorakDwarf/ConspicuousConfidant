@@ -4,10 +4,8 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  
-    "compilerOptions": {
-      "types": ["node"]
-    }
-  
-  
+  "compilerOptions": {
+    "types": ["node", "webextension-polyfill"],
+    "typeRoots": ["node_modules/@types", "types"]
+  },
 }

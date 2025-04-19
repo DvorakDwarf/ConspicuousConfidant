@@ -1,56 +1,106 @@
+// src/App.tsx
+/*global browser*/
 import "./App.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Urls } from "../lib/interface";
+import { getStorage, setStorage } from "./lib/storage";
+// import { getStorage, setStorage } from "../lib/storage";
 
 function App() {
-  // // Pomodoro timer states
-  // const [breakTime, setBreakTime] = useState<number>(5);
-  // const [sessionTime, setSessionTime] = useState<number>(25);
-  // const [isRunning, setIsRunning] = useState<boolean>(false);
-  // const [repeats, setRepeats] = useState<number>(0);
-
-  // URL input states
-  const [allowedURLS, setAllowedURLS] = useState<Urls[]>([
-    {
-      url: "https://stackoverflow.com/questions/*",
-      allowed: true,
-    },
-    {
-      url: "https://www.youtube.com/",
-      allowed: true,
-    },
-  ]);
+  const [allowedURLS, setAllowedURLS] = useState<Urls[]>([]);
   const [url, setUrl] = useState("");
 
+  // const getFromBackground = async (key: string) => {
+  //   const response = await browser.runtime.sendMessage({
+  //     action: "getStorage",
+  //     key: key,
+  //   });
+  //   return response.data;
+  // };
+
+  // const saveToBackground = async (key: string, value: any) => {
+  //   await browser.runtime.sendMessage({
+  //     action: "setStorage",
+  //     key: key,
+  //     value: value,
+  //   });
+  // };
+
+  // Load saved URLs on component mount
   useEffect(() => {
-    console.log(allowedURLS);
+    const loadUrls = async () => {
+      try {
+        const result = await getStorage<Urls[]>("whitelist");
+        setAllowedURLS(
+          result || [
+            { url: "https://stackoverflow.com/questions/*", allowed: true },
+            { url: "https://www.youtube.com/", allowed: true },
+          ]
+        );
+      } catch (error) {
+        console.error("Storage error:", error);
+      }
+    };
+    loadUrls();
+  }, []);
+
+  // Save URLs whenever they change
+  useEffect(() => {
+    const saveUrls = async () => {
+      try {
+        await setStorage("whitelist", allowedURLS);
+      } catch (error) {
+        console.error("Storage error:", error);
+      }
+    };
+    saveUrls();
   }, [allowedURLS]);
 
+  // URL validation function
   function isValidHttpUrl(url: string) {
-    let res;
     try {
-      res = new URL(url);
-    } catch (_) {
+      const res = new URL(url);
+      return res.protocol === "http:" || res.protocol === "https:";
+    } catch {
       return false;
     }
-
-    return res.protocol === "http:" || res.protocol === "https:";
   }
 
+  // Add new URL
   function addURL(url: string) {
-    if (isValidHttpUrl(url)) {
+    if (isValidHttpUrl(url) && !allowedURLS.some((u) => u.url === url)) {
       setAllowedURLS((prev) => [...prev, { url, allowed: true }]);
+      setUrl(""); // Clear input after adding
     }
   }
-  const toggleAllowed = (index: number) => {
-    setAllowedURLS((prev) => {
-      const updated = [...prev];
-      updated[index] = {
-        ...updated[index],
-        allowed: !updated[index].allowed,
-      };
-      return updated;
-    });
+
+  // Toggle URL allowed status
+  const toggleAllowed = async (index: number) => {
+    const updatedURLs = allowedURLS.map((item, i) =>
+      i === index ? { ...item, allowed: !item.allowed } : item
+    );
+
+    setAllowedURLS(updatedURLs);
+
+    try {
+      await setStorage("whitelist", updatedURLs);
+    } catch (error) {
+      console.error("Error updating storage:", error);
+      setAllowedURLS(allowedURLS); // Revert on error
+    }
+  };
+
+  // Remove URL
+  const removeURL = async (index: number) => {
+    const updatedURLs = allowedURLS.filter((_, i) => i !== index);
+    setAllowedURLS(updatedURLs);
+
+    try {
+      await setStorage("whitelist", updatedURLs);
+    } catch (error) {
+      console.error("Error removing URL:", error);
+      setAllowedURLS(allowedURLS); // Revert on error
+    }
   };
 
   return (
@@ -78,7 +128,7 @@ function App() {
           </button>
         </div>
 
-        <div className="w-full space-y-2">
+        <div className="w-full space-y-2 max-h-[400px] overflow-y-auto">
           {allowedURLS.map((url, i) => (
             <div
               key={i}
@@ -87,14 +137,22 @@ function App() {
               <span className={url.allowed ? "" : "line-through text-gray-500"}>
                 {url.url}
               </span>
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={url.allowed}
-                  onChange={() => toggleAllowed(i)}
-                  className="ml-2 h-4 w-4"
-                />
-              </label>
+              <div className="flex gap-2">
+                <label className="flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={url.allowed}
+                    onChange={() => toggleAllowed(i)}
+                    className="ml-2 h-4 w-4"
+                  />
+                </label>
+                <button
+                  onClick={() => removeURL(i)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  ×
+                </button>
+              </div>
             </div>
           ))}
         </div>

@@ -19,7 +19,8 @@
   "permissions": [
     "<all_urls>",
     "tabs",
-    "storage"
+    "storage",
+    "runtime"
   ],
 
   "background": {
