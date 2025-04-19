@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { ChangeEvent, ReactHTMLElement, useEffect, useState } from "react";
 
 function App() {
   // Pomodoro timer states
@@ -16,7 +16,28 @@ function App() {
   const [url, setUrl] = useState("");
   const [isUrlValid, setIsUrlValid] = useState(false);
   const [isUrlLoading, setIsUrlLoading] = useState(false);
-  return <></>;
+
+  useEffect(() => {
+    console.log(url);
+  }, [url]);
+
+  return (
+    <div className="flex flex-col justify-center">
+      <div className="flex flex-col items-center">
+        <h1>Timer</h1>
+        <input
+          className="border w-[50vw]"
+          name="item"
+          type="text"
+          placeholder="youtube"
+          value={url}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setUrl(e.target.value)
+          }
+        />
+      </div>
+    </div>
+  );
 }
 
 export default App;
