@@ -1,8 +1,10 @@
-function getTabs() {
-    console.log(browser.tabs.query({ currentWindow: true }));
-}
+// if (!browser.storage.local.get("enabled")) {
+//     browser.storage.local.set("whitelist", ["stackoverflow.com"]);
+//     browser.storage.local.set("enabled", false);
+// }
 
-document.addEventListener("DOMContentLoaded", getTabs);
+browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
+browser.storage.local.set({"enabled": false});
 
 browser.runtime.onMessage.addListener((data, sender) => {
     if (data.type === "switch_tab") {
@@ -25,6 +27,6 @@ function onError(error) {
     console.error(`Error: ${error}`);
 }
   
-browser.tabs.query({}).then(logTabs, onError);
+// browser.tabs.query({}).then(logTabs, onError);
 
 console.log("BACKGROUND LOADED")
