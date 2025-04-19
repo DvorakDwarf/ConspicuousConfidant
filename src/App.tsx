@@ -39,7 +39,12 @@ function App() {
   return (
     <div className="flex flex-col justify-center">
       <div className="flex flex-col items-center">
+      <div className="font-extrabold"> 
+          ConspicousConfidant
+        </div>
+
         <h1>Timer</h1>
+        
         <input
           className="border w-[20vw]"
           name="item"
@@ -54,6 +59,17 @@ function App() {
       </div>
     </div>
   );
+  // // URL input states
+  // const [allowedURLS, setAllowedURLS] = useState<string[]>([
+  //   "https://stackoverflow.com/questions/*",
+  //   "https://www.youtube.com/",
+  // ]);
+  // const [url, setUrl] = useState("");
+  // const [isUrlValid, setIsUrlValid] = useState(false);
+  // const [isUrlLoading, setIsUrlLoading] = useState(false);
+  // return <></>;
+
+  
 }
 
 export default App;
