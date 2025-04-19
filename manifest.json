@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Conspicous Confidant",
+    "version": "1.0",
+  
+    "description": "Stops you from procratistination by messing with you",
+  
+    "icons": {
+      "48": "icons/border-48.png"
+    },
+  
+    "content_scripts": [
+      {
+        "matches": ["*"],
+        "js": ["confidant.js"]
+      }
+    ]
+}
