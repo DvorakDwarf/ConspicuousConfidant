@@ -1,3 +1,7 @@
+//Things we store
+// An array of allowed URLs
+// Enabled or disabled
+
 console.log("WORKING");
 
 //Send message to background
@@ -12,6 +16,14 @@ function troll() {
     //Mess with html here
     // document.body.style.border = "5px solid red";
 }
+
+// if (Window.localStorage.getItem("whitelist") == []) {
+    
+// }
+
+browser.storage.local.get("whitelist").then((item) => {
+    console.log(item);
+});
 
 setTimeout(backToProductivity, 1000 * 1);
 
