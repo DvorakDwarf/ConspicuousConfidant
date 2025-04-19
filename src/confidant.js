@@ -1,3 +1,5 @@
+console.log("WORKING");
+
 function getTabs() {
     console.log(browser.tabs.query({ currentWindow: true }));
 }

@@ -20,8 +20,8 @@
 
   "content_scripts": [
     {
-      "matches": ["*"],
-      "js": ["src/confidant.js"]
+      "matches": ["<all_urls>"],
+      "js": ["/src/confidant.js"]
     }
   ]
 }
