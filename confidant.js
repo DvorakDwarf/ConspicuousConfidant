@@ -2,13 +2,11 @@
 // An array of allowed URLs
 // Enabled or disabled
 
-console.log("WORKING");
-
 //Send message to background
 function backToProductivity() {
     console.log("Sending to productivity tab");
     browser.runtime.sendMessage({
-        type: "switch_tab"
+        command: "switch_tab"
     }); 
 }
 
@@ -20,10 +18,6 @@ function troll() {
 // if (Window.localStorage.getItem("whitelist") == []) {
     
 // }
-
-browser.storage.local.get("whitelist").then((item) => {
-    console.log(item);
-});
 
 setTimeout(backToProductivity, 1000 * 1);
 
