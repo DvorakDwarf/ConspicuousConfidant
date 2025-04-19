@@ -1,5 +1,5 @@
 import "./App.css";
-import { ChangeEvent, ReactHTMLElement, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 function App() {
   // Pomodoro timer states
@@ -18,15 +18,32 @@ function App() {
   const [isUrlLoading, setIsUrlLoading] = useState(false);
 
   useEffect(() => {
-    console.log(url);
-  }, [url]);
+    console.log(allowedURLS);
+  }, [allowedURLS]);
+
+  function isValidHttpUrl(url: string) {
+    let res;
+    try {
+      res = new URL(url);
+    } catch (_) {
+      return false;
+    }
+
+    return res.protocol === "http:" || res.protocol === "https:";
+  }
+
+  function addURL(url: string) {
+    if (isValidHttpUrl(url)) {
+      setAllowedURLS((prev) => [...prev, url]);
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center">
       <div className="flex flex-col items-center">
         <h1>Timer</h1>
         <input
-          className="border w-[50vw]"
+          className="border w-[20vw]"
           name="item"
           type="text"
           placeholder="youtube"
@@ -35,6 +52,7 @@ function App() {
             setUrl(e.target.value)
           }
         />
+        <button onClick={() => addURL(url)}>Add URL</button>
       </div>
     </div>
   );
