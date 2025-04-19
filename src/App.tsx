@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Pomodoro timer states
+  const [breakTime, setBreakTime] = useState<number>(5);
+  const [sessionTime, setSessionTime] = useState<number>(25);
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [repeats, setRepeats] = useState<number>(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  // URL input states
+  const [allowedURLS, setAllowedURLS] = useState<string[]>([
+    "https://stackoverflow.com/questions/*",
+    "https://www.youtube.com/",
+  ]);
+  const [url, setUrl] = useState("");
+  const [isUrlValid, setIsUrlValid] = useState(false);
+  const [isUrlLoading, setIsUrlLoading] = useState(false);
+  return <></>;
 }
 
-export default App
+export default App;
