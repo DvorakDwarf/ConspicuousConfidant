@@ -14,8 +14,6 @@ function App() {
     "https://www.youtube.com/",
   ]);
   const [url, setUrl] = useState("");
-  const [isUrlValid, setIsUrlValid] = useState(false);
-  const [isUrlLoading, setIsUrlLoading] = useState(false);
 
   useEffect(() => {
     console.log(allowedURLS);

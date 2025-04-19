@@ -4,7 +4,7 @@
   "version": "1.0.0",
 
   "icons": {
-    "48": "icons/border-48.png"
+    "48": "icons/border48.png"
   },
 
   "description": "Stops you from procratistination by messing with you",
@@ -12,11 +12,20 @@
   "homepage_url": "https://github.com/DvorakDwarf/ConspicuousConfidant",
 
   "browser_action": {
-    "default_icon": "icons/border-48.png",
+    "default_icon": "icons/border48.png",
     "default_title": "Settings",
     "default_popup": "popup/popup.html"
   },
-  "permissions": ["activeTab", "tabs"],
+  "permissions": [
+    "<all_urls>",
+    "tabs"
+  ],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true,
+    "type": "module"
+  },
 
   "content_scripts": [
     {
