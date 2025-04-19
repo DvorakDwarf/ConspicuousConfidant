@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Conspicous Confidant",
   "version": "1.0.0",
 
@@ -16,12 +16,21 @@
     "default_title": "Settings",
     "default_popup": "popup/popup.html"
   },
-  "permissions": ["activeTab", "tabs"],
+  "permissions": [
+    "<all_urls>",
+    "tabs"
+  ],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true,
+    "type": "module"
+  },
 
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["src/confidant.js"]
+      "js": ["confidant.js"]
     }
   ]
 }
