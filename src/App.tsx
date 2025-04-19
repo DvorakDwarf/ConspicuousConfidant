@@ -1,5 +1,6 @@
 import "./App.css";
 import { ChangeEvent, useEffect, useState } from "react";
+import { Urls } from "../lib/interface";
 
 function App() {
   // // Pomodoro timer states
@@ -9,9 +10,15 @@ function App() {
   // const [repeats, setRepeats] = useState<number>(0);
 
   // URL input states
-  const [allowedURLS, setAllowedURLS] = useState<string[]>([
-    "https://stackoverflow.com/questions/*",
-    "https://www.youtube.com/",
+  const [allowedURLS, setAllowedURLS] = useState<Urls[]>([
+    {
+      url: "https://stackoverflow.com/questions/*",
+      allowed: true,
+    },
+    {
+      url: "https://www.youtube.com/",
+      allowed: true,
+    },
   ]);
   const [url, setUrl] = useState("");
 
@@ -32,44 +39,68 @@ function App() {
 
   function addURL(url: string) {
     if (isValidHttpUrl(url)) {
-      setAllowedURLS((prev) => [...prev, url]);
+      setAllowedURLS((prev) => [...prev, { url, allowed: true }]);
     }
   }
+  const toggleAllowed = (index: number) => {
+    setAllowedURLS((prev) => {
+      const updated = [...prev];
+      updated[index] = {
+        ...updated[index],
+        allowed: !updated[index].allowed,
+      };
+      return updated;
+    });
+  };
 
   return (
-    <div className="flex flex-col justify-center">
-      <div className="flex flex-col items-center">
-      <div className="font-extrabold"> 
-          ConspicousConfidant
+    <div className="flex flex-col justify-center w-[400px] h-[600px] p-4">
+      <div className="flex flex-col items-center space-y-4 w-full">
+        <div className="font-extrabold text-xl">ConspicousConfidant</div>
+        <h1 className="text-lg">Timer</h1>
+
+        <div className="flex w-full gap-2">
+          <input
+            className="border flex-1 p-2 rounded"
+            name="item"
+            type="text"
+            placeholder="Enter URL (e.g., youtube.com)"
+            value={url}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setUrl(e.target.value)
+            }
+          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={() => addURL(url)}
+          >
+            Add URL
+          </button>
         </div>
 
-        <h1>Timer</h1>
-        
-        <input
-          className="border w-[20vw]"
-          name="item"
-          type="text"
-          placeholder="youtube"
-          value={url}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setUrl(e.target.value)
-          }
-        />
-        <button onClick={() => addURL(url)}>Add URL</button>
+        <div className="w-full space-y-2">
+          {allowedURLS.map((url, i) => (
+            <div
+              key={i}
+              className="flex items-center justify-between p-2 bg-gray-100 rounded"
+            >
+              <span className={url.allowed ? "" : "line-through text-gray-500"}>
+                {url.url}
+              </span>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={url.allowed}
+                  onChange={() => toggleAllowed(i)}
+                  className="ml-2 h-4 w-4"
+                />
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
-  // // URL input states
-  // const [allowedURLS, setAllowedURLS] = useState<string[]>([
-  //   "https://stackoverflow.com/questions/*",
-  //   "https://www.youtube.com/",
-  // ]);
-  // const [url, setUrl] = useState("");
-  // const [isUrlValid, setIsUrlValid] = useState(false);
-  // const [isUrlLoading, setIsUrlLoading] = useState(false);
-  // return <></>;
-
-  
 }
 
 export default App;
