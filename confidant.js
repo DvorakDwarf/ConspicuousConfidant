@@ -7,8 +7,7 @@ console.log("WORKING");
 const script = {
   "general": [
     "I am in your walls",
-    "Get to work",
-    ""
+    "Get to work"
   ],
   "stackoverflow.com": [
     "Now this is a productive website"
@@ -140,7 +139,7 @@ async function callConfidant() {
         text.innerHTML = selectLine(window.location.hostname);
         text.style.width = "200px";
         text.style.fontSize = "12px";
-        // text.style.color = "black";
+        text.style.color = "black";
         little_guy.appendChild(text);
 
         var image = document.createElement("img");
