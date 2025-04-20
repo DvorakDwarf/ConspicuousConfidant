@@ -170,7 +170,9 @@ async function callConfidant() {
         little_guy.appendChild(text);
 
         var image = document.createElement("img");
-        image.src = browser.runtime.getURL("images/TheYeller.png");
+        const pictures = ["images/angry.jpg", "images/happy.png", "images/sad.jpg"]
+        const picture_url = pictures[Math.floor(Math.random() * pictures.length)];
+        image.src = browser.runtime.getURL(picture_url);
         image.width = 200;
         image.height = 200;
         little_guy.appendChild(image);
