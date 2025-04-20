@@ -4,6 +4,17 @@
 
 console.log("WORKING");
 
+const script = {
+  "general": [
+    "I am in your walls",
+    "Get to work",
+    ""
+  ],
+  "stackoverflow.com": [
+    "Now this is a productive website"
+  ]
+}
+
 function troll() {
 // Mess with html here
   const random_num = Math.floor(Math.random() * 3) + 1;
@@ -57,13 +68,13 @@ async function backToProductivity() {
   }
 }
 
-// function selectLine(hostname) {
-// 	if (script[hostname] == undefined) {
-// 		return script["general"][Math.floor(Math.random() * script["general"].length)];
-// 	} else {
-// 		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
-// 	}
-// }
+function selectLine(hostname) {
+	if (script[hostname] == undefined) {
+		return script["general"][Math.floor(Math.random() * script["general"].length)];
+	} else {
+		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
+	}
+}
 
 async function getFromBackground(key) {
     return new Promise((resolve) => {
@@ -126,8 +137,7 @@ async function callConfidant() {
         // little_guy.style.background = "whitesmoke";
 
         var text = document.createElement("p");
-        // text.innerHTML = selectLine(window.location.hostname);
-		text.innerHTML = "blah blah";
+        text.innerHTML = selectLine(window.location.hostname);
         text.style.width = "200px";
         text.style.fontSize = "12px";
         // text.style.color = "black";

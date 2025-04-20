@@ -3,7 +3,7 @@ console.log("BACKGROUND START");
 browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
 browser.storage.local.set({"wait_time": 1000 * 5});
 browser.storage.local.set({"troll_time": 1000 * 1});
-browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
+browser.storage.local.set({"enabled": true}); //TODO: CHANGE THIS BACK TO FALSE
 
 // console.log(browser.storage.local.get("whitelist"));
 
