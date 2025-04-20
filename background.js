@@ -8,7 +8,7 @@ browser.storage.local.set({"whitelist": [
 ]});
 browser.storage.local.set({"wait_time": 1000 * 10});
 browser.storage.local.set({"troll_time": 1000 * 4});
-browser.storage.local.set({"enabled": true}); //TODO: CHANGE THIS BACK TO FALSE
+browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getStorage") {
