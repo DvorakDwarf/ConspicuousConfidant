@@ -7,7 +7,7 @@ browser.storage.local.set({"whitelist": [
     "github.com"
 ]});
 browser.storage.local.set({"wait_time": 1000 * 10});
-browser.storage.local.set({"troll_time": 1000 * 5});
+browser.storage.local.set({"troll_time": 1000 * 4});
 browser.storage.local.set({"enabled": true}); //TODO: CHANGE THIS BACK TO FALSE
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
