@@ -4,6 +4,15 @@
 
 console.log("WORKING");
 
+const script = {
+	"general": [
+		"blah"
+	],
+  	// "stackoverflow.com": [
+	// 	"Now this is a productive website."
+	// ]
+};
+
 function troll() {
 //     // Mess with html here
 
@@ -66,6 +75,14 @@ async function backToProductivity() {
     }
 }
 
+function selectLine(hostname) {
+	if (script[hostname] == undefined) {
+		return script["general"][Math.floor(Math.random() * script["general"].length)];
+	} else {
+		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
+	}
+}
+
 window.addEventListener("visibilitychange", async () => {
     const enabled = (await browser.storage.local.get("enabled"))["enabled"]; 
 
@@ -84,7 +101,7 @@ window.addEventListener("visibilitychange", async () => {
         // little_guy.style.background = "whitesmoke";
 
         var text = document.createElement("p");
-        text.innerHTML = "Blah Blah Blah Blah Blah Blah Blah Blah";
+        text.innerHTML = selectLine(window.location.hostname);
         text.style.width = "200px";
         text.style.fontSize = "12px";
         // text.style.color = "black";
