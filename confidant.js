@@ -7,10 +7,19 @@ console.log("WORKING");
 const script = {
   "general": [
     "I am in your walls",
-    "Get to work"
+    "Get to work",
+    "Time waits for no one",
+    "Overconfidence is a slow and insidious killer",
+    "I will retire before you finally finish your work",
+  ],
+  "productive" : [
+    "On task and on time"
   ],
   "stackoverflow.com": [
-    "Now this is a productive website"
+    "Now this is what I call a productive website"
+  ],
+  "openai.com": [
+    "Are you going to ask mom to do your homework for you?"
   ]
 }
 
@@ -67,11 +76,16 @@ async function backToProductivity() {
   }
 }
 
-function selectLine(hostname) {
-	if (script[hostname] == undefined) {
+async function selectLine(hostname) {
+
+	if (script[hostname] != undefined) {
+    return script[hostname][Math.floor(Math.random() * script[hostname].length)];
+
+  } else if ((await getFromBackground("whitelist")).includes(hostname)) {
+    return script["productive"][Math.floor(Math.random() * script["productive"].length)];
+
+	} else{
 		return script["general"][Math.floor(Math.random() * script["general"].length)];
-	} else {
-		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
 	}
 }
 
@@ -136,7 +150,7 @@ async function callConfidant() {
         // little_guy.style.background = "whitesmoke";
 
         var text = document.createElement("p");
-        text.innerHTML = selectLine(window.location.hostname);
+        text.innerHTML = await selectLine(window.location.hostname);
         text.style.width = "200px";
         text.style.fontSize = "12px";
         text.style.color = "black";
