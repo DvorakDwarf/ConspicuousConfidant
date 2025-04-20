@@ -1,14 +1,16 @@
-// src/App.tsx
-/*global browser*/
 /// <reference types="chrome" />
 import "./App.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Urls } from "../lib/interface";
-import { getStorage, setStorage } from "./lib/storage";
-// import { getStorage, setStorage } from "../lib/storage";
+import { setStorage } from "./lib/storage";
 
 function App() {
   const [allowedURLS, setAllowedURLS] = useState<Urls[]>([]);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [timeBeforeTrolling, setTimeBeforeTrolling] = useState<number>(0);
+  const [timeBeforeSwitch, setTimeBeforeSwitch] = useState<number>(0);
+
+  useState<number>(0);
   const [url, setUrl] = useState("");
 
   const getEnabled = (): Promise<boolean> => {
@@ -17,11 +19,6 @@ function App() {
         resolve(result.enabled as boolean);
       });
     });
-  };
-
-  const handle = async () => {
-    const enabled = await getEnabled();
-    console.log(enabled);
   };
 
   const getFromBackground = (key: string): Promise<any> => {
@@ -57,7 +54,7 @@ function App() {
   useEffect(() => {
     const loadUrls = async () => {
       try {
-        const result = await getStorage<Urls[]>("whitelist");
+        const result = await getFromBackground("whitelist");
         setAllowedURLS(
           result || [
             { url: "https://stackoverflow.com/questions/*", allowed: true },
@@ -75,11 +72,12 @@ function App() {
   useEffect(() => {
     const saveUrls = async () => {
       try {
-        await setStorage("whitelist", allowedURLS);
+        await saveToBackground("whitelist", allowedURLS);
       } catch (error) {
         console.error("Storage error:", error);
       }
     };
+
     saveUrls();
   }, [allowedURLS]);
 
@@ -141,6 +139,40 @@ function App() {
         </div>
 
         <h1 className="text-lg">Timer!</h1>
+        <div className="flex w-full grap-2">
+          <div className="flex flex-col">
+            <h2>Time Before Trolling</h2>
+            <input
+              className="border flex-1 p-2 rounded"
+              name="item"
+              type="number"
+              placeholder="Enter Time (e.g. 5 min)"
+              value={timeBeforeTrolling}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setTimeBeforeTrolling(Number(e.target.value))
+              }
+            />
+            <h2>Time Before switching</h2>
+            <input
+              className="border flex-1 p-2 rounded"
+              name="item"
+              type="number"
+              placeholder="Enter Time (e.g. 5 min)"
+              value={timeBeforeSwitch}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setTimeBeforeSwitch(Number(e.target.value))
+              }
+            />
+          </div>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={() => setIsActive(!isActive)}
+          >
+            Add Time
+          </button>
+        </div>
+
+        <h1 className="text-lg">Add URLs</h1>
 
         <div className="flex w-full gap-2">
           <input

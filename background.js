@@ -8,6 +8,25 @@ browser.storage.local.set({"wait_time": 1000 * 5});
 browser.storage.local.set({"troll_time": 1000 * 1});
 browser.storage.local.set({"enabled": true}); //TODO: CHANGE THIS BACK TO FALSE
 
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "getStorage") {
+      chrome.storage.local.get([request.key], (result) => {
+        sendResponse({ data: result[request.key] });
+      });
+      return true; // Required for async response
+    }
+    
+    if (request.action === "setStorage") {
+      chrome.storage.local.set({ [request.key]: request.value }, () => {
+        sendResponse({ success: true });
+      });
+      return true;
+    }
+    
+    // Add other actions as needed
+  });
+
 async function pickTab(tabs) {
     const whitelist = (await browser.storage.local.get("whitelist")).whitelist;
 

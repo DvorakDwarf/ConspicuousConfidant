@@ -5,29 +5,29 @@
 console.log("WORKING");
 
 function troll() {
-    //Mess with html here
-    // document.body.style.border = "5px solid red";
+    // Mess with html here
+    document.body.style.border = "5px solid red";
 
-    // document.body.style.border = "100px solid green";
-    // for (let index = 0; index < 10000000; index++) {
-    //     document.body.style.transform = "rotate(180deg)";
-    // }
+    document.body.style.border = "100px solid green";
+    for (let index = 0; index < 10000000; index++) {
+        document.body.style.transform = "rotate(180deg)";
+    }
 
-    // document.body.style.filter = "blur(100px)";
+    document.body.style.filter = "blur(100px)";
 
-    // document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+    document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
 
-    // document.querySelectorAll("*").forEach(el => {
-    //     el.style.animation = "spin 2s linear infinite";
-    // });
+    document.querySelectorAll("*").forEach(el => {
+        el.style.animation = "spin 2s linear infinite";
+    });
 
-    // const style = document.createElement("style");
-    // style.innerHTML = `
-    //     @keyframes spin {
-    //         0% { transform: rotate(0deg); }
-    //         100% { transform: rotate(360deg); }
-    //     }`;
-    // document.head.appendChild(style);
+    const style = document.createElement("style");
+    style.innerHTML = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }`;
+    document.head.appendChild(style);
 
 
 }
@@ -68,3 +68,67 @@ window.addEventListener("visibilitychange", async () => {
     setTimeout(backToProductivity, wait_time);
     setInterval(troll, troll_time);
 });
+
+
+async function getFromBackground(key) {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        {
+          action: "getStorage",
+          key: key,
+        },
+        (response) => {
+          resolve(response.data);
+        }
+      );
+    });
+  }
+  
+  async function saveToBackground(key, value) {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        {
+          action: "setStorage",
+          key: key,
+          value: value,
+        },
+        () => {
+          resolve();
+        }
+      );
+    });
+  }
+  
+  // Example usage in your existing functions
+  async function backToProductivity() {
+    console.log("Sending to productivity tab?");
+    
+    // Use the new function to get whitelist
+    let whitelist = await getFromBackground("whitelist");
+    if (!whitelist.some(urlObj => 
+      window.location.hostname.includes(new URL(urlObj.url).hostname) && urlObj.allowed
+    )) {
+      chrome.runtime.sendMessage({
+        command: "switch_tab"
+      }); 
+    }
+  }
+  
+  // Update your visibilitychange listener
+  window.addEventListener("visibilitychange", async () => {
+    const enabled = await getFromBackground("enabled");
+    
+    if (!enabled) { 
+      console.log("Disabled");
+      return; 
+    }
+    if (document.hidden) { return; }
+  
+    console.log("NEW TAB");
+  
+    const wait_time = await getFromBackground("wait_time");
+    const troll_time = await getFromBackground("troll_time");
+  
+    setTimeout(backToProductivity, wait_time);
+    setInterval(troll, troll_time);
+  });
