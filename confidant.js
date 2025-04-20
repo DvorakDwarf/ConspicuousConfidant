@@ -4,30 +4,32 @@
 
 console.log("WORKING");
 
-
-function random_number_generator(){
-  return Math.floor(Math.random() * 3) + 1;
-}
+const script = {
+	"general": [
+		"blah"
+	],
+  	// "stackoverflow.com": [
+	// 	"Now this is a productive website."
+	// ]
+};
 
 function troll() {
+//     // Mess with html here
 
-  // Mess with html here
 
 
-  const random_num = random_number_generator();
+//   const random_num = Math.floor(Math.random() * 3) + 1;
 
-  switch (random_num) {
-    case 1:
-      document.body.style.border = "100px solid green";
-    break;
-    case 2:
-      document.body.style.filter = "blur(100px)";
-      break;
-    case 3:
-      document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
-      break;
-  }
-
+//   switch (random_num) {
+//     case 1:
+//       document.body.style.border = "100px solid green";
+//     break;
+//     case 2:
+//       document.body.style.filter = "blur(100px)";
+//       break;
+//     case 3:
+//       document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+//       break;
 
     // document.body.style.border = "5px solid red";
 
@@ -51,9 +53,8 @@ function troll() {
     //         100% { transform: rotate(360deg); }
     //     }`;
     // document.head.appendChild(style);
-
-
 }
+
 
 // export function getWhitelist(){
 //     browser.storage.local.get("whitelist").then((item) => {
@@ -74,6 +75,14 @@ async function backToProductivity() {
     }
 }
 
+function selectLine(hostname) {
+	if (script[hostname] == undefined) {
+		return script["general"][Math.floor(Math.random() * script["general"].length)];
+	} else {
+		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
+	}
+}
+
 window.addEventListener("visibilitychange", async () => {
     const enabled = (await browser.storage.local.get("enabled"))["enabled"]; 
 
@@ -87,21 +96,24 @@ window.addEventListener("visibilitychange", async () => {
     if (query_guys.length < 1) { 
         console.log("Add elements");
         var little_guy = document.createElement("div");
-        little_guy.innerHTML = "Title2";
-        little_guy.style = "top:0;right:100px;position:absolute;z-index: 9999"
+        little_guy.style = "bottom:0px;right:0px;position:fixed;z-index: 9999;background:whitesmoke"
         little_guy.className = "little_guy";
+        // little_guy.style.background = "whitesmoke";
+
+        var text = document.createElement("p");
+        text.innerHTML = selectLine(window.location.hostname);
+        text.style.width = "200px";
+        text.style.fontSize = "12px";
+        // text.style.color = "black";
+        little_guy.appendChild(text);
 
         var image = document.createElement("img");
         image.src = browser.runtime.getURL("images/TheYeller.png");
-        image.width = "200px"
-        image.height = "200px"
-
+        image.width = 200;
+        image.height = 200;
         little_guy.appendChild(image);
     
-        // var image = document.createElement("img").src = "images/TheYeller.png";
-        // little_guy.appendChild(image);
-    
-        document.body.appendChild(image);
+        document.body.appendChild(little_guy);
     }
 
 
@@ -117,7 +129,7 @@ window.addEventListener("visibilitychange", async () => {
 
 async function getFromBackground(key) {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage(
+      browser.runtime.sendMessage(
         {
           action: "getStorage",
           key: key,
@@ -131,7 +143,7 @@ async function getFromBackground(key) {
   
   async function saveToBackground(key, value) {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage(
+      browser.runtime.sendMessage(
         {
           action: "setStorage",
           key: key,
@@ -149,18 +161,16 @@ async function getFromBackground(key) {
     console.log("Sending to productivity tab?");
     
     // Use the new function to get whitelist
-    let whitelist = await getFromBackground("whitelist");
-    if (!whitelist.some(urlObj => 
-      window.location.hostname.includes(new URL(urlObj.url).hostname) && urlObj.allowed
-    )) {
-      chrome.runtime.sendMessage({
+    let whitelist = (await getFromBackground("whitelist"));
+
+    if (!(whitelist.includes(window.location.hostname))) {
+      browser.runtime.sendMessage({
         command: "switch_tab"
       }); 
     }
   }
   
-  // Update your visibilitychange listener
-  window.addEventListener("visibilitychange", async () => {
+async function callConfidant() {
     const enabled = await getFromBackground("enabled");
     
     if (!enabled) { 
@@ -169,11 +179,15 @@ async function getFromBackground(key) {
     }
     if (document.hidden) { return; }
   
-    console.log("NEW TAB");
+    console.log("Calling Confidant");
   
     const wait_time = await getFromBackground("wait_time");
     const troll_time = await getFromBackground("troll_time");
   
     setTimeout(backToProductivity, wait_time);
     setInterval(troll, troll_time);
-  });
+}
+
+// Update your visibilitychange listener
+window.addEventListener("visibilitychange", callConfidant);
+callConfidant();
