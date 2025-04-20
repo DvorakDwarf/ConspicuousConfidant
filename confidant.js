@@ -11,48 +11,52 @@ const script = {
     "Time waits for no one",
     "Overconfidence is a slow and insidious killer",
     "I will retire before you finally finish your work",
+    "A day will come when you will rue procrastinating on this task",
+    "Get back in there and finish your assignment",
   ],
   "productive" : [
-    "On task and on time"
+    "On task and on time",
+    "Good job",
+    "Good work"
   ],
   "stackoverflow.com": [
     "Now this is what I call a productive website"
   ],
   "openai.com": [
     "Are you going to ask mom to do your homework for you?"
+  ],
+  "wikipedia.org": [
+    "What a monument to the good internet"
   ]
 }
 
-function troll() {
 // Mess with html here
-  const random_num = Math.floor(Math.random() * 3) + 1;
+function troll() {
+  const CASES = 6
+  const random_num = Math.floor(Math.random() * CASES) + 1;
 
   switch (random_num) {
     case 1:
       document.body.style.border = "100px solid green";
       break;
     case 2:
-      document.body.style.filter = "blur(100px)";
+      document.body.style.filter = "blur(10px)";
       break;
     case 3:
       document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
       break;
-  }
+    case 4:
+        document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "I am in your walls");
+        break;
+    case 5:
+        document.body.style.transform = "rotate(180deg)";
+        break;
+    case 6:
+        document.querySelectorAll("*").forEach(el => {
+          el.style.animation = "spin 2s linear infinite";
+        });
+    }
 
-  document.body.style.border = "5px solid red";
-
-  document.body.style.border = "100px solid green";
-  for (let index = 0; index < 10000000; index++) {
-      document.body.style.transform = "rotate(180deg)";
-  }
-
-  document.body.style.filter = "blur(100px)";
-
-  document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
-
-  document.querySelectorAll("*").forEach(el => {
-      el.style.animation = "spin 2s linear infinite";
-  });
 
   const style = document.createElement("style");
   style.innerHTML = `
