@@ -4,6 +4,10 @@
 
 browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
 browser.storage.local.set({"enabled": false});
+console.log("BACKGROUND START");
+
+browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
+browser.storage.local.set({"enabled": false});
 
 async function pickTab(tabs) {
     const whitelist = (await browser.storage.local.get("whitelist")).whitelist;
@@ -12,6 +16,11 @@ async function pickTab(tabs) {
         const hostname = (new URL(tab.url)).hostname;
         return whitelist.includes(hostname);
     })
+
+    if (productiveTabs.length == 0) {
+        return false;
+    }
+
     const randomTab = productiveTabs[Math.floor(Math.random() * productiveTabs.length)];
 
     browser.tabs.query({
@@ -55,4 +64,4 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return browser.storage.local.set({ [request.key]: request.value })
         .then(() => ({ success: true }));
     }
-  });
+});

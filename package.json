@@ -15,6 +15,7 @@
     "chrome": "^0.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^6.30.0",
     "tailwindcss": "^4.1.4",
     "vite-plugin-static-copy": "^2.3.1",
     "webextension-polyfill": "^0.12.0"
