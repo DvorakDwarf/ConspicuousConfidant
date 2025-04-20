@@ -3,7 +3,7 @@ import "./App.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Urls } from "../lib/interface";
 import { setStorage } from "./lib/storage";
-import Menu from "./icons/Menu.svg"
+import Hamburger from "./assets/Hamburger.svg"
 
 function App() {
   const [allowedURLS, setAllowedURLS] = useState<Urls[]>([]);
@@ -180,7 +180,7 @@ function App() {
           <div className="flex space-y-4">ConspicousConfidant</div>      
            <div className="relative">
             <img
-              src={Menu}
+              src={Hamburger}
               alt="Dropdown Menu"
               onClick={toggleDropdown}
               className="w-8 h-8 cursor-pointer"

@@ -1,34 +1,32 @@
 console.log("BACKGROUND START");
 
-browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
+browser.storage.local.set({"whitelist": ["stackoverflow.com", "docs.python.org", "wikipedia.org"]});
 browser.storage.local.set({"wait_time": 1000 * 5});
 browser.storage.local.set({"troll_time": 1000 * 1});
 browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
 
 // console.log(browser.storage.local.get("whitelist"));
 
-
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getStorage") {
-      browser.storage.local.get([request.key], (result) => {
-        sendResponse({ data: result[request.key] });
-      });
-      return true; // Required for async response
+        browser.storage.local.get([request.key], (result) => {
+            sendResponse({ data: result[request.key] });
+        });
+            return true; // Required for async response
     }
     
     if (request.action === "setStorage") {
-      browser.storage.local.set({ [request.key]: request.value }, () => {
-        sendResponse({ success: true });
-      });
-      return true;
+        browser.storage.local.set({ [request.key]: request.value }, () => {
+            sendResponse({ success: true });
+        });
+        return true;
     }
     if (request.action === "activate") {
         // Update both timer parameters at once
         const updates = {
-                troll_time: request.value.timeToTroll*60000,
-                wait_time: request.value.timeToSwitch*60000,
-                enabled: request.value.isActive
-            
+            troll_time: request.value.timeToTroll*60000,
+            wait_time: request.value.timeToSwitch*60000,
+            enabled: request.value.isActive
         };
         
         browser.storage.local.set(updates, () => {
