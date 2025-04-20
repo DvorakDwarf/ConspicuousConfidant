@@ -1,11 +1,13 @@
 console.log("BACKGROUND START");
 
-browser.storage.local.set({"whitelist": [
-    "stackoverflow.com", 
-    "docs.python.org", 
-    "wikipedia.org",
-    "github.com"
-]});
+browser.storage.local.set({
+    "whitelist": [
+      {url: "stackoverflow.com", allowed: true},
+      {url: "docs.python.org", allowed: true},
+      {url: "wikipedia.org", allowed: true},
+      {url: "github.com", allowed: true}
+    ]
+  });
 browser.storage.local.set({"wait_time": 1000 * 10});
 browser.storage.local.set({"troll_time": 1000 * 4});
 browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
@@ -41,12 +43,14 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   });
 
 async function pickTab(tabs) {
-    const whitelist = (await browser.storage.local.get("whitelist")).whitelist;
-
+   const whitelist = (await browser.storage.local.get("whitelist")).whitelist;
+    
     const productiveTabs = tabs.filter((tab) => {
         const hostname = (new URL(tab.url)).hostname;
-        return whitelist.includes(hostname);
-    })
+        return whitelist.some(item => 
+            item.url === hostname && item.allowed
+        );
+    });
 
     if (productiveTabs.length == 0) {
         return;
