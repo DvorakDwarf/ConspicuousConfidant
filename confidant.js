@@ -51,7 +51,10 @@ function troll() {
 // }
 
 
-
-setTimeout(backToProductivity, 1000 * 1);
-
-setInterval(troll, 1000 * 5);
+window.addEventListener("DOMContentLoaded", async () => {
+    const wait_time = await browser.storage.local.get("wait_time")["wait_time"]; 
+    const troll_time = await browser.storage.local.get("troll_time")["troll_time"]; 
+    
+    setTimeout(backToProductivity, 1000 * 1);
+    setInterval(troll, 1000 * 5);
+});
