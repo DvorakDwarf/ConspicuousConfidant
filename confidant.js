@@ -60,6 +60,28 @@ window.addEventListener("visibilitychange", async () => {
     }
     if (document.hidden) { return; }
 
+    const query_guys = document.querySelectorAll(".little_guy");
+    if (query_guys.length < 1) { 
+        console.log("Add elements");
+        var little_guy = document.createElement("div");
+        little_guy.innerHTML = "Title2";
+        little_guy.style = "top:0;right:100px;position:absolute;z-index: 9999"
+        little_guy.className = "little_guy";
+
+        var image = document.createElement("img");
+        image.src = browser.runtime.getURL("images/TheYeller.png");
+        image.width = "200px"
+        image.height = "200px"
+
+        little_guy.appendChild(image);
+    
+        // var image = document.createElement("img").src = "images/TheYeller.png";
+        // little_guy.appendChild(image);
+    
+        document.body.appendChild(image);
+    }
+
+
     console.log("NEW TAB");
 
     const wait_time = (await browser.storage.local.get("wait_time"))["wait_time"]; 
