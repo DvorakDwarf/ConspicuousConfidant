@@ -1,11 +1,14 @@
 console.log("BACKGROUND START");
 
-browser.storage.local.set({"whitelist": ["stackoverflow.com", "docs.python.org", "wikipedia.org"]});
-browser.storage.local.set({"wait_time": 1000 * 5});
-browser.storage.local.set({"troll_time": 1000 * 1});
-browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
-
-// console.log(browser.storage.local.get("whitelist"));
+browser.storage.local.set({"whitelist": [
+    "stackoverflow.com", 
+    "docs.python.org", 
+    "wikipedia.org",
+    "github.com"
+]});
+browser.storage.local.set({"wait_time": 1000 * 10});
+browser.storage.local.set({"troll_time": 1000 * 5});
+browser.storage.local.set({"enabled": true}); //TODO: CHANGE THIS BACK TO FALSE
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getStorage") {
