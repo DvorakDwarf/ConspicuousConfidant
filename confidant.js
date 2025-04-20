@@ -18,30 +18,30 @@ function troll() {
     case 3:
       document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
       break;
+  }
 
-    document.body.style.border = "5px solid red";
+  document.body.style.border = "5px solid red";
 
-    document.body.style.border = "100px solid green";
-    for (let index = 0; index < 10000000; index++) {
-        document.body.style.transform = "rotate(180deg)";
-    }
+  document.body.style.border = "100px solid green";
+  for (let index = 0; index < 10000000; index++) {
+      document.body.style.transform = "rotate(180deg)";
+  }
 
-    document.body.style.filter = "blur(100px)";
+  document.body.style.filter = "blur(100px)";
 
-    document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+  document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
 
-    document.querySelectorAll("*").forEach(el => {
-        el.style.animation = "spin 2s linear infinite";
-    });
+  document.querySelectorAll("*").forEach(el => {
+      el.style.animation = "spin 2s linear infinite";
+  });
 
-    const style = document.createElement("style");
-    style.innerHTML = `
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }`;
-    document.head.appendChild(style);
-	}
+  const style = document.createElement("style");
+  style.innerHTML = `
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }`;
+  document.head.appendChild(style);
 }
 
 //Send message to background
