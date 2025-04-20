@@ -68,18 +68,3 @@ browser.runtime.onMessage.addListener((data, sender) => {
     }
     return false;
 });
-
-// console.log("BACKGROUND LOADED")
-// Listen for storage requests
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "getStorage") {
-      return browser.storage.local.get(request.key)
-        .then(result => ({ data: result[request.key] }));
-    }
-    
-    if (request.action === "setStorage") {
-      return browser.storage.local.set({ [request.key]: request.value })
-        .then(() => ({ success: true }));
-    }
-});
-
