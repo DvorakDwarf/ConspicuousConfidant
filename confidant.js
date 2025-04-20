@@ -5,10 +5,11 @@
 console.log("WORKING");
 
 function troll() {
-    // Mess with html here
+
+  // Mess with html here
 
 
-
+  
   const random_num = Math.floor(Math.random() * 3) + 1;
 
   switch (random_num) {
