@@ -39,9 +39,9 @@ async function isOnProductiveTab() {
 
 // Mess with html here
 async function troll() {
-  // if (await isOnProductiveTab()) {
-  //   return;
-  // }
+  if (await isOnProductiveTab()) {
+    return;
+  }
 
   const CASES = 5;
   var random_num = Math.floor(Math.random() * CASES) + 1;
