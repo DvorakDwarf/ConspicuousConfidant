@@ -50,17 +50,18 @@ function App() {
     });
   };
 
+  useEffect(() => {
+    getEnabled().then((enabled) => {
+      setIsActive(enabled);
+    });
+  });
   // Load saved URLs on component mount
   useEffect(() => {
     const loadUrls = async () => {
       try {
         const result = await getFromBackground("whitelist");
-        setAllowedURLS(
-          result || [
-            { url: "https://stackoverflow.com/questions/*", allowed: true },
-            { url: "https://www.youtube.com/", allowed: true },
-          ]
-        );
+        // console.log(result);
+        setAllowedURLS(result);
       } catch (error) {
         console.error("Storage error:", error);
       }
@@ -72,6 +73,7 @@ function App() {
   useEffect(() => {
     const saveUrls = async () => {
       try {
+        // console.log(allowedURLS);
         await saveToBackground("whitelist", allowedURLS);
       } catch (error) {
         console.error("Storage error:", error);
