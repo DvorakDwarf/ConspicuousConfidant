@@ -1,5 +1,6 @@
 // src/App.tsx
 /*global browser*/
+/// <reference types="chrome" />
 import "./App.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Urls } from "../lib/interface";
@@ -10,21 +11,47 @@ function App() {
   const [allowedURLS, setAllowedURLS] = useState<Urls[]>([]);
   const [url, setUrl] = useState("");
 
-  // const getFromBackground = async (key: string) => {
-  //   const response = await browser.runtime.sendMessage({
-  //     action: "getStorage",
-  //     key: key,
-  //   });
-  //   return response.data;
-  // };
+  const getEnabled = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      chrome.storage.local.get(["enabled"], (result) => {
+        resolve(result.enabled as boolean);
+      });
+    });
+  };
 
-  // const saveToBackground = async (key: string, value: any) => {
-  //   await browser.runtime.sendMessage({
-  //     action: "setStorage",
-  //     key: key,
-  //     value: value,
-  //   });
-  // };
+  const handle = async () => {
+    const enabled = await getEnabled();
+    console.log(enabled);
+  };
+
+  const getFromBackground = (key: string): Promise<any> => {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        {
+          action: "getStorage",
+          key: key,
+        },
+        (response) => {
+          resolve(response.data);
+        }
+      );
+    });
+  };
+
+  const saveToBackground = (key: string, value: any): Promise<void> => {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        {
+          action: "setStorage",
+          key: key,
+          value: value,
+        },
+        () => {
+          resolve();
+        }
+      );
+    });
+  };
 
   // Load saved URLs on component mount
   useEffect(() => {
@@ -105,17 +132,17 @@ function App() {
 
   return (
     <div className="flex flex-col justify-center w-[400px] h-[600px] p-4">
-      <div className="flex flex-col items-center space-y-4 w-full">   
-       <div className="space-w-4 flex-row"> 
+      <div className="flex flex-col items-center space-y-4 w-full">
+        <div className="space-w-4 flex-row">
           <div className="font-extrabold text-xl top-0">
             ConspicousConfidant
-           </div>
-              {/* <div> 
+          </div>
+          {/* <div> 
                 <img src={Menu} alt="Dropdown Menu" />
              </div> */}
         </div>
 
-        <h1 className="text-lg">Timer</h1>
+        <h1 className="text-lg">Timer!</h1>
 
         <div className="flex w-full gap-2">
           <input

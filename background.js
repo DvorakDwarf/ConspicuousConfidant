@@ -1,9 +1,9 @@
-//Things we store
+// Things we store
 // An array of allowed URLs
 // Enabled or disabled
 
-// browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
-// browser.storage.local.set({"enabled": false});
+browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
+browser.storage.local.set({"enabled": false});
 
 async function pickTab(tabs) {
     const whitelist = (await browser.storage.local.get("whitelist")).whitelist;

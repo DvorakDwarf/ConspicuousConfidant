@@ -5,7 +5,7 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "types": ["node", "webextension-polyfill"],
+    "types": ["node", "webextension-polyfill, @types/chrome"],
     "typeRoots": ["node_modules/@types", "types"]
   },
 }
