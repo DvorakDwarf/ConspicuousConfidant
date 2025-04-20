@@ -42,11 +42,11 @@ function troll() {
     
 // }
 
-export function getWhitelist(){
-    browser.storage.local.get("whitelist").then((item) => {
-        console.log(item);
-    });
-}
+// export function getWhitelist(){
+//     browser.storage.local.get("whitelist").then((item) => {
+//         console.log(item);
+//     });
+// }
 
 
 

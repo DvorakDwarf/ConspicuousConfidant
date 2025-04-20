@@ -2,8 +2,10 @@
 // An array of allowed URLs
 // Enabled or disabled
 
-// browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
-// browser.storage.local.set({"enabled": false});
+console.log("BACKGROUND START");
+
+browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
+browser.storage.local.set({"enabled": false});
 
 async function pickTab(tabs) {
     const whitelist = (await browser.storage.local.get("whitelist")).whitelist;
@@ -55,4 +57,4 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       return browser.storage.local.set({ [request.key]: request.value })
         .then(() => ({ success: true }));
     }
-  });
+});
