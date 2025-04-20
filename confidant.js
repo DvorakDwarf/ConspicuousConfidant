@@ -47,14 +47,14 @@ function troll() {
 //Send message to background
 //Could be started, but activated when user reaches productive tab. Check here again.
 async function backToProductivity() {
-    console.log("Sending to productivity tab?");
+  console.log("Sending to productivity tab?");
 
-    let whitelist = (await browser.storage.local.get("whitelist")).whitelist;
-    if (!whitelist.includes(window.location.hostname)) {
-        browser.runtime.sendMessage({
-            command: "switch_tab"
-        }); 
-    }
+  let whitelist = (await browser.storage.local.get("whitelist")).whitelist;
+  if (!whitelist.includes(window.location.hostname)) {
+    browser.runtime.sendMessage({
+        command: "switch_tab"
+    }); 
+  }
 }
 
 // function selectLine(hostname) {
