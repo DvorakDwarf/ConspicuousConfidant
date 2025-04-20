@@ -4,30 +4,53 @@
 
 console.log("WORKING");
 
+
+function random_number_generator(){
+  return Math.floor(Math.random() * 3) + 1;
+}
+
 function troll() {
-    // Mess with html here
-    document.body.style.border = "5px solid red";
 
-    document.body.style.border = "100px solid green";
-    for (let index = 0; index < 10000000; index++) {
-        document.body.style.transform = "rotate(180deg)";
-    }
+  // Mess with html here
 
-    document.body.style.filter = "blur(100px)";
 
-    document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+  const random_num = random_number_generator();
 
-    document.querySelectorAll("*").forEach(el => {
-        el.style.animation = "spin 2s linear infinite";
-    });
+  switch (random_num) {
+    case 1:
+      document.body.style.border = "100px solid green";
+    break;
+    case 2:
+      document.body.style.filter = "blur(100px)";
+      break;
+    case 3:
+      document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+      break;
+  }
 
-    const style = document.createElement("style");
-    style.innerHTML = `
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }`;
-    document.head.appendChild(style);
+
+    // document.body.style.border = "5px solid red";
+
+    // document.body.style.border = "100px solid green";
+    // for (let index = 0; index < 10000000; index++) {
+    //     document.body.style.transform = "rotate(180deg)";
+    // }
+
+    // document.body.style.filter = "blur(100px)";
+
+    // document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+
+    // document.querySelectorAll("*").forEach(el => {
+    //     el.style.animation = "spin 2s linear infinite";
+    // });
+
+    // const style = document.createElement("style");
+    // style.innerHTML = `
+    //     @keyframes spin {
+    //         0% { transform: rotate(0deg); }
+    //         100% { transform: rotate(360deg); }
+    //     }`;
+    // document.head.appendChild(style);
 
 
 }
