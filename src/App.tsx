@@ -9,8 +9,7 @@ function App() {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [timeBeforeTrolling, setTimeBeforeTrolling] = useState<number>(0);
   const [timeBeforeSwitch, setTimeBeforeSwitch] = useState<number>(0);
-
-  useState<number>(0);
+  const [activeTimer, setActiveTimer] = useState<boolean>(false);
   const [url, setUrl] = useState("");
 
   const getEnabled = (): Promise<boolean> => {
@@ -50,11 +49,30 @@ function App() {
     });
   };
 
+  const setTimer = (
+    key: { key1: string; key2: string; key3: string },
+    value: { troll_time: number; wait_time: number; enabled: boolean }
+  ): Promise<void> => {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        {
+          action: "activate",
+          key: key,
+          value: value,
+        },
+        () => {
+          resolve();
+        }
+      );
+    });
+  };
+
   useEffect(() => {
     getEnabled().then((enabled) => {
       setIsActive(enabled);
     });
   });
+
   // Load saved URLs on component mount
   useEffect(() => {
     const loadUrls = async () => {
@@ -81,7 +99,25 @@ function App() {
     };
 
     saveUrls();
-  }, [allowedURLS]);
+  }, [isActive, allowedURLS]);
+
+  useEffect(() => {
+    const activate = async () => {
+      try {
+        await setTimer(
+          { key1: "troll_time", key2: "wait_time", key3: "enabled" },
+          {
+            troll_time: timeBeforeTrolling,
+            wait_time: timeBeforeSwitch,
+            enabled: true,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    activate();
+  }, [activeTimer]);
 
   // URL validation function
   function isValidHttpUrl(url: string) {
@@ -168,7 +204,7 @@ function App() {
           </div>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            onClick={() => setIsActive(!isActive)}
+            onClick={() => setActiveTimer(true)}
           >
             Add Time
           </button>
