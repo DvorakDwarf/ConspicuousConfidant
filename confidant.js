@@ -4,63 +4,45 @@
 
 console.log("WORKING");
 
-const script = {
-	"general": [
-		"blah"
-	],
-  	// "stackoverflow.com": [
-	// 	"Now this is a productive website."
-	// ]
-};
-
 function troll() {
-//     // Mess with html here
+// Mess with html here
+  const random_num = Math.floor(Math.random() * 3) + 1;
 
+  switch (random_num) {
+    case 1:
+      document.body.style.border = "100px solid green";
+      break;
+    case 2:
+      document.body.style.filter = "blur(100px)";
+      break;
+    case 3:
+      document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+      break;
 
+    document.body.style.border = "5px solid red";
 
-//   const random_num = Math.floor(Math.random() * 3) + 1;
+    document.body.style.border = "100px solid green";
+    for (let index = 0; index < 10000000; index++) {
+        document.body.style.transform = "rotate(180deg)";
+    }
 
-//   switch (random_num) {
-//     case 1:
-//       document.body.style.border = "100px solid green";
-//     break;
-//     case 2:
-//       document.body.style.filter = "blur(100px)";
-//       break;
-//     case 3:
-//       document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
-//       break;
+    document.body.style.filter = "blur(100px)";
 
-    // document.body.style.border = "5px solid red";
+    document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
 
-    // document.body.style.border = "100px solid green";
-    // for (let index = 0; index < 10000000; index++) {
-    //     document.body.style.transform = "rotate(180deg)";
-    // }
+    document.querySelectorAll("*").forEach(el => {
+        el.style.animation = "spin 2s linear infinite";
+    });
 
-    // document.body.style.filter = "blur(100px)";
-
-    // document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
-
-    // document.querySelectorAll("*").forEach(el => {
-    //     el.style.animation = "spin 2s linear infinite";
-    // });
-
-    // const style = document.createElement("style");
-    // style.innerHTML = `
-    //     @keyframes spin {
-    //         0% { transform: rotate(0deg); }
-    //         100% { transform: rotate(360deg); }
-    //     }`;
-    // document.head.appendChild(style);
+    const style = document.createElement("style");
+    style.innerHTML = `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }`;
+    document.head.appendChild(style);
+	}
 }
-
-
-// export function getWhitelist(){
-//     browser.storage.local.get("whitelist").then((item) => {
-//         console.log(item);
-//     });
-// }
 
 //Send message to background
 //Could be started, but activated when user reaches productive tab. Check here again.
@@ -75,13 +57,13 @@ async function backToProductivity() {
     }
 }
 
-function selectLine(hostname) {
-	if (script[hostname] == undefined) {
-		return script["general"][Math.floor(Math.random() * script["general"].length)];
-	} else {
-		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
-	}
-}
+// function selectLine(hostname) {
+// 	if (script[hostname] == undefined) {
+// 		return script["general"][Math.floor(Math.random() * script["general"].length)];
+// 	} else {
+// 		return script[hostname][Math.floor(Math.random() * script[hostname].length)];
+// 	}
+// }
 
 async function getFromBackground(key) {
     return new Promise((resolve) => {
@@ -144,7 +126,8 @@ async function callConfidant() {
         // little_guy.style.background = "whitesmoke";
 
         var text = document.createElement("p");
-        text.innerHTML = selectLine(window.location.hostname);
+        // text.innerHTML = selectLine(window.location.hostname);
+		text.innerHTML = "blah blah";
         text.style.width = "200px";
         text.style.fontSize = "12px";
         // text.style.color = "black";
@@ -163,7 +146,7 @@ async function callConfidant() {
     const troll_time = (await browser.storage.local.get("troll_time"))["troll_time"]; 
 
     setTimeout(backToProductivity, wait_time);
-    setInterval(troll, troll_time);
+    // setInterval(troll, troll_time);
 }
 
 // Update your visibilitychange listener

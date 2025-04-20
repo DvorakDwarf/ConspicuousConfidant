@@ -7,7 +7,6 @@ browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
 
 // console.log(browser.storage.local.get("whitelist"));
 
-
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getStorage") {
         browser.storage.local.get([request.key], (result) => {
