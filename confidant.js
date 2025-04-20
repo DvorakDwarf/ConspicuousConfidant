@@ -83,50 +83,6 @@ function selectLine(hostname) {
 	}
 }
 
-window.addEventListener("visibilitychange", async () => {
-    const enabled = (await browser.storage.local.get("enabled"))["enabled"]; 
-
-    if (!enabled) { 
-        console.log("Disabled");
-        return; 
-    }
-    if (document.hidden) { return; }
-
-    const query_guys = document.querySelectorAll(".little_guy");
-    if (query_guys.length < 1) { 
-        console.log("Add elements");
-        var little_guy = document.createElement("div");
-        little_guy.style = "bottom:0px;right:0px;position:fixed;z-index: 9999;background:whitesmoke"
-        little_guy.className = "little_guy";
-        // little_guy.style.background = "whitesmoke";
-
-        var text = document.createElement("p");
-        text.innerHTML = selectLine(window.location.hostname);
-        text.style.width = "200px";
-        text.style.fontSize = "12px";
-        // text.style.color = "black";
-        little_guy.appendChild(text);
-
-        var image = document.createElement("img");
-        image.src = browser.runtime.getURL("images/TheYeller.png");
-        image.width = 200;
-        image.height = 200;
-        little_guy.appendChild(image);
-    
-        document.body.appendChild(little_guy);
-    }
-
-
-    console.log("NEW TAB");
-
-    const wait_time = (await browser.storage.local.get("wait_time"))["wait_time"]; 
-    const troll_time = (await browser.storage.local.get("troll_time"))["troll_time"]; 
-
-    setTimeout(backToProductivity, wait_time);
-    setInterval(troll, troll_time);
-});
-
-
 async function getFromBackground(key) {
     return new Promise((resolve) => {
       browser.runtime.sendMessage(
@@ -171,19 +127,41 @@ async function getFromBackground(key) {
   }
   
 async function callConfidant() {
-    const enabled = await getFromBackground("enabled");
-    
+    const enabled = (await browser.storage.local.get("enabled"))["enabled"]; 
+
     if (!enabled) { 
-      console.log("Disabled");
-      return; 
+        console.log("Disabled");
+        return; 
     }
     if (document.hidden) { return; }
-  
-    console.log("Calling Confidant");
-  
-    const wait_time = await getFromBackground("wait_time");
-    const troll_time = await getFromBackground("troll_time");
-  
+
+    const query_guys = document.querySelectorAll(".little_guy");
+    if (query_guys.length < 1) { 
+        console.log("Add elements");
+        var little_guy = document.createElement("div");
+        little_guy.style = "bottom:0px;right:0px;position:fixed;z-index: 9999;background:whitesmoke"
+        little_guy.className = "little_guy";
+        // little_guy.style.background = "whitesmoke";
+
+        var text = document.createElement("p");
+        text.innerHTML = selectLine(window.location.hostname);
+        text.style.width = "200px";
+        text.style.fontSize = "12px";
+        // text.style.color = "black";
+        little_guy.appendChild(text);
+
+        var image = document.createElement("img");
+        image.src = browser.runtime.getURL("images/TheYeller.png");
+        image.width = 200;
+        image.height = 200;
+        little_guy.appendChild(image);
+    
+        document.body.appendChild(little_guy);
+    }
+
+    const wait_time = (await browser.storage.local.get("wait_time"))["wait_time"]; 
+    const troll_time = (await browser.storage.local.get("troll_time"))["troll_time"]; 
+
     setTimeout(backToProductivity, wait_time);
     setInterval(troll, troll_time);
 }
