@@ -14,6 +14,11 @@ async function pickTab(tabs) {
         const hostname = (new URL(tab.url)).hostname;
         return whitelist.includes(hostname);
     })
+
+    if (productiveTabs.length == 0) {
+        return false;
+    }
+
     const randomTab = productiveTabs[Math.floor(Math.random() * productiveTabs.length)];
 
     browser.tabs.query({

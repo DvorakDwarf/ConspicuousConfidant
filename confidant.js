@@ -2,6 +2,8 @@
 // An array of allowed URLs
 // Enabled or disabled
 
+console.log("WORKING");
+
 //Send message to background
 function backToProductivity() {
     console.log("Sending to productivity tab");
