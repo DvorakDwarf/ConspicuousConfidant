@@ -6,28 +6,46 @@ console.log("WORKING");
 
 function troll() {
     // Mess with html here
-    document.body.style.border = "5px solid red";
 
-    document.body.style.border = "100px solid green";
-    for (let index = 0; index < 10000000; index++) {
-        document.body.style.transform = "rotate(180deg)";
-    }
 
-    document.body.style.filter = "blur(100px)";
 
-    document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+  const random_num = Math.floor(Math.random() * 3) + 1;
 
-    document.querySelectorAll("*").forEach(el => {
-        el.style.animation = "spin 2s linear infinite";
-    });
+  switch (random_num) {
+    case 1:
+      document.body.style.border = "100px solid green";
+    break;
+    case 2:
+      document.body.style.filter = "blur(100px)";
+      break;
+    case 3:
+      document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+      break;
+  }
 
-    const style = document.createElement("style");
-    style.innerHTML = `
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }`;
-    document.head.appendChild(style);
+
+    // document.body.style.border = "5px solid red";
+
+    // document.body.style.border = "100px solid green";
+    // for (let index = 0; index < 10000000; index++) {
+    //     document.body.style.transform = "rotate(180deg)";
+    // }
+
+    // document.body.style.filter = "blur(100px)";
+
+    // document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+
+    // document.querySelectorAll("*").forEach(el => {
+    //     el.style.animation = "spin 2s linear infinite";
+    // });
+
+    // const style = document.createElement("style");
+    // style.innerHTML = `
+    //     @keyframes spin {
+    //         0% { transform: rotate(0deg); }
+    //         100% { transform: rotate(360deg); }
+    //     }`;
+    // document.head.appendChild(style);
 
 
 }
@@ -59,6 +77,28 @@ window.addEventListener("visibilitychange", async () => {
         return; 
     }
     if (document.hidden) { return; }
+
+    const query_guys = document.querySelectorAll(".little_guy");
+    if (query_guys.length < 1) { 
+        console.log("Add elements");
+        var little_guy = document.createElement("div");
+        little_guy.innerHTML = "Title2";
+        little_guy.style = "top:0;right:100px;position:absolute;z-index: 9999"
+        little_guy.className = "little_guy";
+
+        var image = document.createElement("img");
+        image.src = browser.runtime.getURL("images/TheYeller.png");
+        image.width = "200px"
+        image.height = "200px"
+
+        little_guy.appendChild(image);
+    
+        // var image = document.createElement("img").src = "images/TheYeller.png";
+        // little_guy.appendChild(image);
+    
+        document.body.appendChild(image);
+    }
+
 
     console.log("NEW TAB");
 

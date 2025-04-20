@@ -3,7 +3,7 @@ console.log("BACKGROUND START");
 browser.storage.local.set({"whitelist": ["stackoverflow.com"]});
 browser.storage.local.set({"wait_time": 1000 * 5});
 browser.storage.local.set({"troll_time": 1000 * 1});
-browser.storage.local.set({"enabled": true}); //TODO: CHANGE THIS BACK TO FALSE
+browser.storage.local.set({"enabled": false}); //TODO: CHANGE THIS BACK TO FALSE
 
 // console.log(browser.storage.local.get("whitelist"));
 
@@ -68,18 +68,3 @@ browser.runtime.onMessage.addListener((data, sender) => {
     }
     return false;
 });
-
-// console.log("BACKGROUND LOADED")
-// Listen for storage requests
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "getStorage") {
-      return browser.storage.local.get(request.key)
-        .then(result => ({ data: result[request.key] }));
-    }
-    
-    if (request.action === "setStorage") {
-      return browser.storage.local.set({ [request.key]: request.value })
-        .then(() => ({ success: true }));
-    }
-});
-

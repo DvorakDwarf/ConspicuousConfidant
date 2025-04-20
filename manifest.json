@@ -33,5 +33,9 @@
       "matches": ["*://*/*"],
       "js": ["confidant.js"]
     }
+  ],
+
+  "web_accessible_resources": [
+    "images/TheYeller.png"
   ]
 }
