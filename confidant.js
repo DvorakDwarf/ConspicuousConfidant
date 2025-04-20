@@ -4,12 +4,17 @@
 
 console.log("WORKING");
 
+
+function random_number_generator(){
+  return Math.floor(Math.random() * 3) + 1;
+}
+
 function troll() {
-    // Mess with html here
+
+  // Mess with html here
 
 
-
-  const random_num = Math.floor(Math.random() * 3) + 1;
+  const random_num = random_number_generator();
 
   switch (random_num) {
     case 1:

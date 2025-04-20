@@ -3,6 +3,7 @@ import "./App.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Urls } from "../lib/interface";
 import { setStorage } from "./lib/storage";
+import Menu from "./icons/Menu.svg"
 
 function App() {
   const [allowedURLS, setAllowedURLS] = useState<Urls[]>([]);
@@ -165,18 +166,34 @@ function App() {
       setAllowedURLS(allowedURLS); // Revert on error
     }
   };
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
 
   return (
     <div className="flex flex-col justify-center w-[400px] h-[600px] p-4">
-      <div className="flex flex-col items-center space-y-4 w-full">
-        <div className="space-w-4 flex-row justify-between bg-gray-800 text-white top-0">
-          <div className="flex space-y-4">ConspicousConfidant</div>
-          {/* <div> 
-                <img src={Menu} alt="Dropdown Menu" />
-             </div> */}
-        </div>
-
-        <h1 className="text-lg">Timer!</h1>
+      <div className="flex flex-col items-center space-y-4">
+        <div className="absolute flex flex-row justify-between bg-gray-800 text-white top-0 w-screen">
+          <div className="flex space-y-4">ConspicousConfidant</div>      
+           <div className="relative">
+            <img
+              src={Menu}
+              alt="Dropdown Menu"
+              onClick={toggleDropdown}
+              className="w-8 h-8 cursor-pointer"
+            />
+            </div>
+            {isDropdownOpen} && return(
+              <div className="absolute right-0 mt-2 w-40 bg-white text-black shadow-lg rounded-md z-50">
+                <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  Dropdown Item
+            </div>
+            );
+          </div>
+        <h1 className="text-lg">Timer</h1>
         <div className="flex w-full grap-2">
           <div className="flex flex-col">
             <h2>Time Before Trolling</h2>
@@ -261,7 +278,8 @@ function App() {
         </div>
       </div>
     </div>
-  );
-}
+    </div>
+   ); 
+ };
 
 export default App;
