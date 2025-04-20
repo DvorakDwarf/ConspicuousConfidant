@@ -5,11 +5,11 @@ chrome.storage.local.set({
 
 chrome.storage.local.set({
 
-    "wait_time": 1000 * 5,
+    "wait_time": 100000 * 5,
 })
 chrome.storage.local.set({
 
-    "troll_time": 1000 * 1,
+    "troll_time": 100000 * 1,
 })
 
 chrome.storage.local.set({
