@@ -13,6 +13,9 @@ const script = {
     "I will retire before you finally finish your work",
     "A day will come when you will rue procrastinating on this task",
     "Get back in there and finish your assignment",
+    "That isn't very egg-celent of you",
+    "Get back to work or I'll eat your files in your sleep",
+    "Ya lazy bum, finish your work"
   ],
   "productive" : [
     "On task and on time",
@@ -30,41 +33,48 @@ const script = {
   ]
 }
 
+async function isOnProductiveTab() {
+  return (await getFromBackground("whitelist")).includes(window.location.hostname);
+}
+
 // Mess with html here
-function troll() {
-  const CASES = 6
-  const random_num = Math.floor(Math.random() * CASES) + 1;
+async function troll() {
+  // if (await isOnProductiveTab()) {
+  //   return;
+  // }
+
+  const CASES = 5;
+  var random_num = Math.floor(Math.random() * CASES) + 1;
+
+  console.log(random_num);
 
   switch (random_num) {
     case 1:
       document.body.style.border = "100px solid green";
       break;
     case 2:
-      document.body.style.filter = "blur(10px)";
+      document.body.style.filter = "blur(2px)";
       break;
     case 3:
-      document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "Coke");
+      var elements = document.body.getElementsByTagName("p"); 
+      console.log(elements);
+      elements[Math.floor(Math.random() * elements.length)].innerHTML = "I am in your walls";
       break;
     case 4:
-        document.body.innerHTML = document.body.innerHTML.replace(/\b\w+\b/g, "I am in your walls");
+        document.body.style.transform = "rotate(20deg)";
         break;
     case 5:
-        document.body.style.transform = "rotate(180deg)";
-        break;
-    case 6:
+        const style = document.createElement("style");
+        style.innerHTML = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+        }`;
+        document.head.appendChild(style);
         document.querySelectorAll("*").forEach(el => {
-          el.style.animation = "spin 2s linear infinite";
+          el.style.animation = "spin 2s linear 0s";
         });
     }
-
-
-  const style = document.createElement("style");
-  style.innerHTML = `
-      @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-      }`;
-  document.head.appendChild(style);
 }
 
 //Send message to background
@@ -72,8 +82,7 @@ function troll() {
 async function backToProductivity() {
   console.log("Sending to productivity tab?");
 
-  let whitelist = (await browser.storage.local.get("whitelist")).whitelist;
-  if (!whitelist.includes(window.location.hostname)) {
+  if (!(await isOnProductiveTab())) {
     browser.runtime.sendMessage({
         command: "switch_tab"
     }); 
@@ -129,7 +138,7 @@ async function getFromBackground(key) {
     // Use the new function to get whitelist
     let whitelist = (await getFromBackground("whitelist"));
 
-    if (!(whitelist.includes(window.location.hostname))) {
+    if (!(await isOnProductiveTab())) {
       browser.runtime.sendMessage({
         command: "switch_tab"
       }); 
@@ -173,7 +182,7 @@ async function callConfidant() {
     const troll_time = (await browser.storage.local.get("troll_time"))["troll_time"]; 
 
     setTimeout(backToProductivity, wait_time);
-    // setInterval(troll, troll_time);
+    setInterval(troll, troll_time);
 }
 
 // Update your visibilitychange listener
