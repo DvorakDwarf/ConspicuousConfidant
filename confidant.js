@@ -4,14 +4,6 @@
 
 console.log("WORKING");
 
-//Send message to background
-function backToProductivity() {
-    console.log("Sending to productivity tab");
-    browser.runtime.sendMessage({
-        command: "switch_tab"
-    }); 
-}
-
 function troll() {
     //Mess with html here
     // document.body.style.border = "5px solid red";
@@ -40,20 +32,38 @@ function troll() {
 
 }
 
-// if (Window.localStorage.getItem("whitelist") == []) {
-    
-// }
-
 // export function getWhitelist(){
 //     browser.storage.local.get("whitelist").then((item) => {
 //         console.log(item);
 //     });
 // }
 
+//Send message to background
+//Could be started, but activated when user reaches productive tab. Check here again.
+async function backToProductivity() {
+    console.log("Sending to productivity tab?");
 
-window.addEventListener("DOMContentLoaded", async () => {
-    const wait_time = await browser.storage.local.get("wait_time")["wait_time"]; 
-    const troll_time = await browser.storage.local.get("troll_time")["troll_time"]; 
+    let whitelist = (await browser.storage.local.get("whitelist")).whitelist;
+    if (!whitelist.includes(window.location.hostname)) {
+        browser.runtime.sendMessage({
+            command: "switch_tab"
+        }); 
+    }
+}
+
+window.addEventListener("visibilitychange", async () => {
+    const enabled = (await browser.storage.local.get("enabled"))["enabled"]; 
+
+    if (!enabled) { 
+        console.log("Disabled");
+        return; 
+    }
+    if (document.hidden) { return; }
+
+    console.log("NEW TAB");
+
+    const wait_time = (await browser.storage.local.get("wait_time"))["wait_time"]; 
+    const troll_time = (await browser.storage.local.get("troll_time"))["troll_time"]; 
 
     setTimeout(backToProductivity, wait_time);
     setInterval(troll, troll_time);
